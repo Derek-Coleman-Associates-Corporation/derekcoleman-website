@@ -3,64 +3,304 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Derek Coleman — cloud marketplace engineering</title>
-<meta name="description" content="Personal site of Derek Coleman: cloud marketplace publishing, image factories, and certification automation across Azure, AWS, OCI, and GCP.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121214">
+<title>Derek Coleman — Distinguished Architect · CEO · AI Innovator</title>
+<meta name="description" content="Derek Coleman: securing local generative AI for production. Private language models, zero-trust multi-cloud architecture, and executive leadership across Azure, AWS, OCI, and GCP.">
 <link rel="canonical" href="https://derekcoleman.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Derek Coleman">
-<meta property="og:title" content="Derek Coleman — cloud marketplace engineering">
-<meta property="og:description" content="Personal site of Derek Coleman: cloud marketplace publishing, image factories, and certification automation across Azure, AWS, OCI, and GCP.">
+<meta property="og:title" content="Derek Coleman — Distinguished Architect · CEO · AI Innovator">
+<meta property="og:description" content="Derek Coleman: securing local generative AI for production. Private language models, zero-trust multi-cloud architecture, and executive leadership across Azure, AWS, OCI, and GCP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body id="top">
 <header class="site"><div class="wrap">
-  <a class="brand" href="./">Derek Coleman</a>
+  <a class="brand" href="./"><svg viewBox="0 0 32 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<g transform="rotate(45 16 16)">
+<rect x="5" y="5" width="10" height="10" rx="2" fill="#274b8f"/>
+<rect x="17" y="5" width="10" height="10" rx="2" fill="#6ea8ff"/>
+<rect x="5" y="17" width="10" height="10" rx="2" fill="#6ea8ff"/>
+<rect x="17" y="17" width="10" height="10" rx="2" fill="#1d3a6e"/>
+</g></svg>DEREK&nbsp;COLEMAN</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
   <nav class="main">
-    <a href="#work">Work</a>
-    <a href="contact/">Contact</a>
-    <a href="https://www.dcassociatesgroup.com" rel="noopener">DC Associates Group</a>
+    <a href="#top">Home</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#vault">Code Vault</a>
+    <a href="#discussions">Discussions</a>
+    <a href="blog/">Blog</a>
+    <a href="#contact">Contact</a>
   </nav>
 </div></header>
 <main>
 <div class="hero"><div class="wrap">
-  <h1>Cloud marketplace engineering, done end-to-end.</h1>
-  <p>I'm Derek Coleman — founder of Derek Coleman &amp; Associates Group.
-     I build and operate commercial software listings across the Azure, AWS,
-     Oracle Cloud Infrastructure (OCI), and Google Cloud marketplaces:
-     image factories, certification pipelines, and the CI/CD that keeps a
-     fleet of offers continuously publishable.</p>
-  <div class="cta">
-    <a class="btn" href="contact/">Get in touch</a>
-    <a class="btn ghost" href="https://www.dcassociatesgroup.com" rel="noopener">Visit DC Associates Group</a>
+  <div>
+    <h1>Distinguished Architect. CEO.<br>
+      <span class="grad">Securing Local Generative AI</span> for Production.</h1>
+    <p class="sub">Developing private, secure language models and high-performance
+      multi-cloud architectures for enterprise environments.</p>
+    <div class="cta">
+      <a class="btn primary" href="#expertise">Explore My Work</a>
+      <a class="btn ghost" href="#discussions">Read Discussions</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>100+</b><span>live marketplace offers</span></div>
+      <div><b>4 clouds</b><span>Azure · AWS · OCI · GCP</span></div>
+      <div><b>Local-first</b><span>LLMs inside the boundary</span></div>
+    </div>
   </div>
-</div></div>
+  <div class="hero-avatar">
+    <div class="ring"></div>
+    <!-- TODO(operator): replace the placeholder below with the LinkedIn profile
+         photo, e.g. <img src="../assets/derek.jpg" alt="Derek Coleman"
+         style="width:100%;height:100%;object-fit:cover"> inside .ph -->
+    <div class="ph"><span>DC</span><small>photo pending</small></div>
+  </div>
+</div></div><section id="expertise"><div class="wrap reveal">
+  <span class="kicker">Expertise</span>
+  <h2>Three disciplines, one operator</h2>
+  <p class="section-sub">Toggle between the core areas of my work.</p>
+  <div class="tabs" role="tablist"><button class="tab-btn" role="tab" data-tab="ai" aria-selected="true">AI &amp; Language Models</button><button class="tab-btn" role="tab" data-tab="arch" aria-selected="false">Enterprise Architecture</button><button class="tab-btn" role="tab" data-tab="exec" aria-selected="false">Executive Leadership</button></div>
+  <div class="tab-panel active" id="panel-ai" role="tabpanel">
+  <div><h3>Private, production-grade language models</h3><p>Open-source models — OLMo, Llama-3 — deployed as local production systems inside the security boundary, for environments where prompts and weights can never leave the building. Custom fine-tuning pipelines built on Axolotl with LoRA/QLoRA adapters, served at high throughput with vLLM continuous batching.</p><div class="chiplist"><span class="chip">OLMo</span><span class="chip">Llama-3</span><span class="chip">Axolotl</span><span class="chip">LoRA / QLoRA</span><span class="chip">vLLM</span><span class="chip">Private inference</span></div></div>
+  <div class="facts"><div class="fact"><b>Fine-tuning pipelines</b><span>Reproducible Axolotl configs from raw transcripts to evaluated adapters.</span></div><div class="fact"><b>Inference serving</b><span>vLLM with tensor parallelism, token budgets, and per-app API keys.</span></div><div class="fact"><b>Security posture</b><span>Air-gap-friendly: offline HuggingFace hub, no telemetry, audited egress.</span></div></div>
+</div><div class="tab-panel" id="panel-arch" role="tabpanel">
+  <div><h3>Zero-trust multi-cloud, control/data plane split</h3><p>Architectures spanning AWS, Azure, GCP, and Oracle Cloud Infrastructure (OCI) built on a strict control plane / data plane separation: the vendor's control plane orchestrates, while customer databases stay inside the customer's own private VPC boundary — reached only via private endpoints, never the public internet.</p><div class="chiplist"><span class="chip">AWS</span><span class="chip">Azure</span><span class="chip">GCP</span><span class="chip">OCI</span><span class="chip">Zero trust</span><span class="chip">PrivateLink</span><span class="chip">IaC</span></div></div>
+  <div class="facts"><div class="fact"><b>Data sovereignty</b><span>Customer data planes with no public ingress and no route out.</span></div><div class="fact"><b>Marketplace scale</b><span>100+ certified offers with CI-gated compliance pipelines.</span></div><div class="fact"><b>Image factories</b><span>Packer + CIS-hardened builds, CVE freshening on a treadmill.</span></div></div>
+</div><div class="tab-panel" id="panel-exec" role="tabpanel">
+  <div><h3>CEO &amp; business owner</h3><p>Founder and CEO of Derek Coleman &amp; Associates Group, managing family-business operations end to end — strategy, finance, and delivery — while driving multi-cloud go-to-market co-selling partnerships across the Microsoft, AWS, Oracle, and Google partner ecosystems.</p><div class="chiplist"><span class="chip">P&amp;L ownership</span><span class="chip">GTM strategy</span><span class="chip">Co-sell programs</span><span class="chip">Partner ecosystems</span></div></div>
+  <div class="facts"><div class="fact"><b>Co-sell coverage</b><span>40+ solutions co-sell ready across partner programs.</span></div><div class="fact"><b>Operating cadence</b><span>Owner-operator discipline: strategy through execution.</span></div><div class="fact"><b>2027 targets</b><span>A programmatic path to hundreds of monetized offers.</span></div></div>
+</div>
+</div></section><section id="vault"><div class="wrap reveal">
+  <span class="kicker">Code Vault</span>
+  <h2>Copy-paste playground</h2>
+  <p class="section-sub">Working patterns from real deployments — routing gateways,
+    fine-tuning templates, zero-trust infrastructure. Copy freely.</p>
+  <div class="pills" data-filter-group="#vault .codecard"><button class="pill" data-cat="all" aria-pressed="true">All</button><button class="pill" data-cat="python" aria-pressed="false">Python</button><button class="pill" data-cat="terraform" aria-pressed="false">Terraform</button><button class="pill" data-cat="configs" aria-pressed="false">Configs</button></div>
+  <div class="vault-grid"><div class="codecard" data-cat="python">
+  <div class="codehead">
+    <span class="fname">model_router.py</span>
+    <span class="lang">Python</span>
+    <button class="copybtn" type="button">Copy</button>
+  </div>
+  <pre><code><span class="tok-c"># model_router.py — FastAPI gateway routing chat completions across</span>
+<span class="tok-c"># private inference pools. Nothing leaves the boundary: every upstream is</span>
+<span class="tok-c"># an internal vLLM endpoint or a private-link cloud pool.</span>
+<span class="tok-k">from</span> fastapi <span class="tok-k">import</span> FastAPI, HTTPException
+<span class="tok-k">from</span> pydantic <span class="tok-k">import</span> BaseModel
+<span class="tok-k">import</span> httpx
 
-<section id="work"><div class="wrap">
-  <h2>What I work on</h2>
-  <div class="cards">
-    <div class="card"><h3>Marketplace publishing</h3>
-      <p>100+ live Azure Marketplace offers — virtual machine images, Azure
-         Kubernetes Service (AKS) apps, and managed applications — plus
-         expansion programs on AWS, OCI, and GCP.</p></div>
-    <div class="card"><h3>Image factories</h3>
-      <p>Packer-based build pipelines producing hardened, certification-ready
-         images with CIS (Center for Internet Security) baselines, CVE
-         freshening, and build-time smoke tests.</p></div>
-    <div class="card"><h3>Certification automation</h3>
-      <p>Machine-checkable certification parameters enforced as CI gates, so
-         offers pass marketplace review on the first submission.</p></div>
+UPSTREAMS = {
+    <span class="tok-s">&quot;fast&quot;</span>:  <span class="tok-s">&quot;http://vllm-l40s.internal:8000/v1&quot;</span>,   <span class="tok-c"># Llama-3-8B, low latency</span>
+    <span class="tok-s">&quot;smart&quot;</span>: <span class="tok-s">&quot;http://vllm-h100.internal:8000/v1&quot;</span>,   <span class="tok-c"># Llama-3-70B, hard questions</span>
+    <span class="tok-s">&quot;batch&quot;</span>: <span class="tok-s">&quot;https://gpu-pool.oci.internal/v1&quot;</span>,    <span class="tok-c"># OCI pool via private link</span>
+}
+ROUTE_BY_BUDGET_MS = [(<span class="tok-n">350</span>, <span class="tok-s">&quot;fast&quot;</span>), (<span class="tok-n">2500</span>, <span class="tok-s">&quot;smart&quot;</span>)]
+
+app = <span class="tok-f">FastAPI</span>(title=<span class="tok-s">&quot;model-router&quot;</span>)
+
+<span class="tok-k">class</span> <span class="tok-f">ChatReq</span>(BaseModel):
+    messages: list[dict]
+    model: str = <span class="tok-s">&quot;auto&quot;</span>
+    latency_budget_ms: int = <span class="tok-n">2500</span>
+    max_tokens: int = <span class="tok-n">512</span>
+
+<span class="tok-k">def</span> <span class="tok-f">pick</span>(req: ChatReq) -&gt; str:
+    <span class="tok-k">if</span> req.model != <span class="tok-s">&quot;auto&quot;</span>:
+        <span class="tok-k">if</span> req.model <span class="tok-k">not</span> <span class="tok-k">in</span> UPSTREAMS:
+            <span class="tok-k">raise</span> <span class="tok-f">HTTPException</span>(<span class="tok-n">400</span>, f<span class="tok-s">&quot;unknown model tier {req.model!r}&quot;</span>)
+        <span class="tok-k">return</span> UPSTREAMS[req.model]
+    <span class="tok-k">for</span> budget, tier <span class="tok-k">in</span> ROUTE_BY_BUDGET_MS:
+        <span class="tok-k">if</span> req.latency_budget_ms &lt;= budget:
+            <span class="tok-k">return</span> UPSTREAMS[tier]
+    <span class="tok-k">return</span> UPSTREAMS[<span class="tok-s">&quot;batch&quot;</span>]
+
+@app.<span class="tok-f">post</span>(<span class="tok-s">&quot;/v1/chat/completions&quot;</span>)
+<span class="tok-k">async</span> <span class="tok-k">def</span> <span class="tok-f">route</span>(req: ChatReq):
+    upstream = <span class="tok-f">pick</span>(req)
+    <span class="tok-k">async</span> <span class="tok-k">with</span> httpx.<span class="tok-f">AsyncClient</span>(timeout=<span class="tok-n">30.0</span>) <span class="tok-k">as</span> client:
+        r = <span class="tok-k">await</span> client.<span class="tok-f">post</span>(f<span class="tok-s">&quot;{upstream}/chat/completions&quot;</span>,
+                              json=req.<span class="tok-f">model_dump</span>(exclude={<span class="tok-s">&quot;latency_budget_ms&quot;</span>}))
+        r.<span class="tok-f">raise_for_status</span>()
+        <span class="tok-k">return</span> r.<span class="tok-f">json</span>()
+</code></pre>
+</div><div class="codecard" data-cat="configs">
+  <div class="codehead">
+    <span class="fname">llama3-qlora.yaml</span>
+    <span class="lang">Axolotl</span>
+    <button class="copybtn" type="button">Copy</button>
+  </div>
+  <pre><code><span class="tok-c"># llama3-qlora.yaml — Axolotl QLoRA fine-tune that fits one 24 GB GPU.</span>
+<span class="tok-c"># Train on your own transcripts; weights never leave the building.</span>
+<span class="tok-k">base_model</span>: meta-llama/Meta-Llama-<span class="tok-n">3</span>-8B-Instruct
+<span class="tok-k">load_in_4bit</span>: true
+<span class="tok-k">adapter</span>: qlora
+
+<span class="tok-k">lora_r</span>: <span class="tok-n">32</span>
+<span class="tok-k">lora_alpha</span>: <span class="tok-n">16</span>
+<span class="tok-k">lora_dropout</span>: <span class="tok-n">0.05</span>
+<span class="tok-k">lora_target_modules</span>: [q_proj, k_proj, v_proj, o_proj]
+
+<span class="tok-k">datasets</span>:
+<span class="tok-k">  - path</span>: data/support-transcripts.jsonl
+<span class="tok-k">    type</span>: chat_template
+
+<span class="tok-k">sequence_len</span>: <span class="tok-n">4096</span>
+<span class="tok-k">sample_packing</span>: true
+<span class="tok-k">micro_batch_size</span>: <span class="tok-n">2</span>
+<span class="tok-k">gradient_accumulation_steps</span>: <span class="tok-n">8</span>
+<span class="tok-k">num_epochs</span>: <span class="tok-n">3</span>
+<span class="tok-k">learning_rate</span>: <span class="tok-n">2e-4</span>
+<span class="tok-k">lr_scheduler</span>: cosine
+<span class="tok-k">warmup_ratio</span>: <span class="tok-n">0.05</span>
+<span class="tok-k">bf16</span>: auto
+<span class="tok-k">gradient_checkpointing</span>: true
+
+<span class="tok-k">output_dir</span>: ./outputs/llama3-support-lora
+</code></pre>
+</div><div class="codecard" data-cat="terraform">
+  <div class="codehead">
+    <span class="fname">data_plane.tf</span>
+    <span class="lang">Terraform</span>
+    <button class="copybtn" type="button">Copy</button>
+  </div>
+  <pre><code><span class="tok-c"># data_plane.tf — zero-trust split: the control plane orchestrates,</span>
+<span class="tok-c"># but customer data never leaves the customer\&#x27;s private VPC boundary.</span>
+<span class="tok-k">module</span> <span class="tok-s">&quot;customer_data_plane&quot;</span> {
+  <span class="tok-k">source</span>   = <span class="tok-s">&quot;./modules/data-plane&quot;</span>
+  <span class="tok-k">for_each</span> = var.customers
+
+  vpc_cidr             = each.value.cidr
+  allow_public_ingress = <span class="tok-k">false</span>            <span class="tok-c"># no exceptions</span>
+  db_subnet_tier       = <span class="tok-s">&quot;isolated&quot;</span>       <span class="tok-c"># no route to an IGW/NAT</span>
+
+  <span class="tok-c"># Control plane reaches in via PrivateLink only — never the reverse.</span>
+  control_plane_endpoint_service = aws_vpc_endpoint_service.control.id
+}
+
+<span class="tok-k">resource</span> <span class="tok-s">&quot;aws_security_group_rule&quot;</span> <span class="tok-s">&quot;db_ingress&quot;</span> {
+  <span class="tok-k">for_each</span>          = var.customers
+  <span class="tok-k">type</span>              = <span class="tok-s">&quot;ingress&quot;</span>
+  from_port         = <span class="tok-n">5432</span>
+  to_port           = <span class="tok-n">5432</span>
+  protocol          = <span class="tok-s">&quot;tcp&quot;</span>
+  security_group_id = <span class="tok-k">module</span>.customer_data_plane[each.key].db_sg_id
+  <span class="tok-c"># Only the customer\&#x27;s own app tier — no 0.0.0.0/0, ever.</span>
+  source_security_group_id = <span class="tok-k">module</span>.customer_data_plane[each.key].app_sg_id
+}
+</code></pre>
+</div><div class="codecard" data-cat="configs">
+  <div class="codehead">
+    <span class="fname">vllm.service</span>
+    <span class="lang">systemd</span>
+    <button class="copybtn" type="button">Copy</button>
+  </div>
+  <pre><code><span class="tok-c"># vllm.service — production inference serving, OpenAI-compatible API.</span>
+<span class="tok-c"># High throughput via continuous batching + tensor parallelism.</span>
+<span class="tok-k">[Unit]</span>
+<span class="tok-k">Description</span>=vLLM inference server (Llama-<span class="tok-n">3</span>-70B-Instruct)
+<span class="tok-k">After</span>=network-online.target
+
+<span class="tok-k">[Service]</span>
+<span class="tok-k">User</span>=vllm
+<span class="tok-k">Restart</span>=always
+<span class="tok-k">RestartSec</span>=<span class="tok-n">5</span>
+<span class="tok-k">Environment</span>=HF_HUB_OFFLINE=<span class="tok-n">1</span>
+<span class="tok-k">ExecStart</span>=/opt/vllm/bin/vllm serve meta-llama/Meta-Llama-<span class="tok-n">3</span>-70B-Instruct \
+  --host <span class="tok-n">127</span>.<span class="tok-n">0</span>.<span class="tok-n">0</span>.<span class="tok-n">1</span> --port <span class="tok-n">8000</span> \
+  --tensor-parallel-size <span class="tok-n">4</span> \
+  --max-model-len <span class="tok-n">8192</span> \
+  --gpu-memory-utilization <span class="tok-n">0</span>.<span class="tok-n">92</span> \
+  --api-key-file /etc/vllm/api-keys
+
+<span class="tok-k">[Install]</span>
+<span class="tok-k">WantedBy</span>=multi-user.target
+</code></pre>
+</div></div>
+</div></section><section id="discussions" style="background:var(--bg2)"><div class="wrap reveal">
+  <span class="kicker">Discussions</span>
+  <h2>Notes from the field</h2>
+  <p class="section-sub">Technology, finance, and fitness — the three feeds I actually write.
+    <a href="blog/">View all posts →</a></p>
+  <div class="pills" data-filter-group="#discussions .disc-card"><button class="pill" data-cat="all" aria-pressed="true">All</button><button class="pill" data-cat="tech" aria-pressed="false">Tech</button><button class="pill" data-cat="finance" aria-pressed="false">Finance</button><button class="pill" data-cat="fitness" aria-pressed="false">Fitness</button></div>
+  <div class="disc-grid"><a class="disc-card" data-cat="tech" href="blog/zero-downtime-dns-migration/">
+  <span class="disc-cat tech">Tech</span>
+  <h3>Zero-Downtime DNS Migration: Moving a Live Domain from M365 DNS to Azure DNS</h3>
+  <p>The parallel-zone method — recreate every record TTL-exact, prove parity with dig diffs, then make the nameserver flip the only moving part. Mail keeps flowing the whole time.</p>
+  <div class="disc-meta"><span>July 10, 2026</span><span>2 min read</span></div>
+</a><article class="disc-card" data-cat="tech">
+  <span class="disc-cat tech">Tech</span>
+  <h3>Running Llama-3 Behind Your Own Firewall: a vLLM Production Checklist</h3>
+  <p>GPU memory headroom, continuous batching, API-key rotation, and the monitoring you need before an internal LLM endpoint counts as production.</p>
+  <div class="disc-meta"><span>July 2026</span><span>9 min read</span>
+    <span class="disc-soon">Draft — full post coming soon</span></div>
+</article><article class="disc-card" data-cat="tech">
+  <span class="disc-cat tech">Tech</span>
+  <h3>The API Proxy Gateway Pattern for LLM Traffic</h3>
+  <p>Put one gateway between every app and every model — routing, budget caps, PII scrubbing, and audit logs in a single choke point.</p>
+  <div class="disc-meta"><span>July 2026</span><span>7 min read</span>
+    <span class="disc-soon">Draft — full post coming soon</span></div>
+</article><article class="disc-card" data-cat="tech">
+  <span class="disc-cat tech">Tech</span>
+  <h3>Avoiding the Vulnerability De-listing Trap in Cloud Marketplaces</h3>
+  <p>Why a marketplace image that passed certification last month can be de-listed today, and the CVE-freshening pipeline that prevents it.</p>
+  <div class="disc-meta"><span>June 2026</span><span>8 min read</span>
+    <span class="disc-soon">Draft — full post coming soon</span></div>
+</article><article class="disc-card" data-cat="finance">
+  <span class="disc-cat finance">Finance</span>
+  <h3>SaaS Pricing Models for Infrastructure Software</h3>
+  <p>Per-vCPU, per-node, flat-tier: what actually clears procurement in enterprise accounts, with real marketplace data.</p>
+  <div class="disc-meta"><span>July 2026</span><span>6 min read</span>
+    <span class="disc-soon">Draft — full post coming soon</span></div>
+</article><article class="disc-card" data-cat="finance">
+  <span class="disc-cat finance">Finance</span>
+  <h3>Burning Down Committed Cloud Spend Without Wasting It</h3>
+  <p>Committed-spend agreements expire whether you use them or not. A framework for routing real workloads at the burn-down.</p>
+  <div class="disc-meta"><span>June 2026</span><span>7 min read</span>
+    <span class="disc-soon">Draft — full post coming soon</span></div>
+</article></div>
+</div></section><section id="contact"><div class="wrap reveal">
+  <div class="contact-grid">
+    <div>
+      <span class="kicker">Contact</span>
+      <h2>Let's talk</h2>
+      <p class="section-sub">Consulting, partnerships, speaking — or just compare notes
+        on running language models where the data already lives.
+        Email <a href="mailto:derek@derekcoleman.com">derek@derekcoleman.com</a> or use the form.</p>
+    </div>
+    <form class="contact" id="contact-form" data-contact novalidate>
+      <div class="row2">
+        <label>Name<input type="text" name="name" autocomplete="name" maxlength="200" required></label>
+        <label>Email<input type="email" name="email" autocomplete="email" maxlength="320" required></label>
+      </div>
+      <div class="row2">
+        <label>Company (optional)<input type="text" name="company" autocomplete="organization" maxlength="300"></label>
+        <label>Topic<select name="topic" required><option value="General">General</option><option value="Consulting">Consulting</option><option value="Speaking">Speaking</option><option value="Other">Other</option></select></label>
+      </div>
+      <label>Message<textarea name="message" maxlength="5000" required></textarea></label>
+      <div class="hp-field" aria-hidden="true">
+        <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+      <button class="btn primary" type="submit">Send message</button>
+    </form>
   </div>
 </div></section>
-
 </main>
 <footer class="site"><div class="wrap">
-  <span>© 2026 Derek Coleman</span>
+  <span>© 2026 Derek Coleman · CEO, Derek Coleman &amp; Associates Group</span>
   <span>
     <a href="mailto:derek@derekcoleman.com">derek@derekcoleman.com</a> ·
     <a href="https://www.linkedin.com/company/derek-coleman-associates-group-inc" rel="noopener">LinkedIn</a> ·
-    <a href="https://github.com/Derek-Coleman-Associates-Corporation" rel="noopener">GitHub</a>
+    <a href="https://github.com/Derek-Coleman-Associates-Corporation" rel="noopener">GitHub</a> ·
+    <a href="/pay/">Pay</a> ·
+    <a href="https://www.dcassociatesgroup.com" rel="noopener">DC Associates Group</a>
   </span>
 </div></footer>
-<script src="assets/contact.js" defer></script>
+<script src="assets/app.js" defer></script>
 </body>
 </html>

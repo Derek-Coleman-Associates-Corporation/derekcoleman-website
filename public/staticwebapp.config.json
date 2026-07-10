@@ -5,8 +5,13 @@
   },
   "routes": [
     {
+      "route": "/pay",
+      "rewrite": "/pay/index.html"
+    },
+    {
       "route": "/contact",
-      "rewrite": "/contact/index.html"
+      "redirect": "/#contact",
+      "statusCode": 302
     }
   ],
   "responseOverrides": {
