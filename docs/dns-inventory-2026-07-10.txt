@@ -1,0 +1,25 @@
+# derekcoleman.com DNS inventory — authoritative @ns1.bdm.microsoftonline.com — 2026-07-10
+# Zone host today: Microsoft 365-managed DNS (ns1-4.bdm.microsoftonline.com)
+derekcoleman.com.                        1800  A     76.76.21.21
+derekcoleman.com.                        3600  MX    0 derekcoleman-com.mail.protection.outlook.com.
+derekcoleman.com.                        1800  TXT   "MS=ms42161748"
+derekcoleman.com.                        1800  TXT   "7fqsctqamtoqp8s66abfl2loce"
+derekcoleman.com.                        1800  TXT   "gr6nbmssjjrm9qpqrnc85ffx36w1f8vk"
+derekcoleman.com.                        1800  TXT   "t5x7ll1nyjw60ktmjwz23184nx79g5b4"
+derekcoleman.com.                        1800  TXT   "mscid=YJhoDbfBqzyXjpmn7W8pQ5vNRZqeNQCYcNwFebMXX7NNguCXY5ueBOV8gSpect8HUfQwiD0n3ZHICH7tHkY7QA=="
+derekcoleman.com.                        1800  TXT   "v=spf1 include:spf.protection.outlook.com -all"
+derekcoleman.com.                        1800  TXT   "google-site-verification=YprhZtp_wP1ksItgB-tqDaRqpYRDvaoeJSCr0_DkAr8"
+www.derekcoleman.com.                    1800  CNAME cname.vercel-dns.com.
+autodiscover.derekcoleman.com.           3600  CNAME autodiscover.outlook.com.
+remote.derekcoleman.com.                 3600  A     71.27.15.194
+_dmarc.derekcoleman.com.                 3600  TXT   "v=DMARC1; p=none; pct=100; rua=mailto:dmarc@derekcoleman.com; fo=1; adkim=r; aspf=r"
+selector1._domainkey.derekcoleman.com.   3600  CNAME selector1-derekcoleman-com._domainkey.dereksonthejoboutlook.onmicrosoft.com.
+selector2._domainkey.derekcoleman.com.   3600  CNAME selector2-derekcoleman-com._domainkey.dereksonthejoboutlook.onmicrosoft.com.
+enterpriseregistration.derekcoleman.com. 3600  CNAME enterpriseregistration.windows.net.
+enterpriseenrollment.derekcoleman.com.   3600  CNAME enterpriseenrollment-s.manage.microsoft.com.
+lyncdiscover.derekcoleman.com.           3600  CNAME webdir.online.lync.com.
+sip.derekcoleman.com.                    3600  CNAME sipdir.online.lync.com.
+_sip._tls.derekcoleman.com.              3600  SRV   100 1 443 sipdir.online.lync.com.
+_sipfederationtls._tcp.derekcoleman.com. 3600  SRV   100 1 5061 sipfed.online.lync.com.
+# No AAAA, no CAA at apex. AXFR refused (expected). ANY queries return nothing.
+# NOTE: apex A + www CNAME point at Vercel (existing live site) — superseded by SWA in new zone per plan.

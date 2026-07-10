@@ -1,0 +1,14 @@
+{
+  "name": "derekcoleman-website-api",
+  "version": "1.0.0",
+  "description": "SWA managed-functions API for derekcoleman.com (contact form)",
+  "main": "src/functions/*.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@azure/data-tables": "^13.3.0",
+    "@azure/functions": "^4.5.0",
+    "@azure/storage-queue": "^12.24.0"
+  }
+}

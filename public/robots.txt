@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://derekcoleman.com/sitemap.xml
