@@ -5,12 +5,13 @@
   },
   "routes": [
     {
-      "route": "/contact",
-      "rewrite": "/contact/index.html"
-    },
-    {
       "route": "/pay",
       "rewrite": "/pay/index.html"
+    },
+    {
+      "route": "/contact",
+      "redirect": "/#contact",
+      "statusCode": 302
     }
   ],
   "responseOverrides": {
