@@ -159,6 +159,7 @@ nav.main a.active{color:var(--fg)}
 .hero-avatar .ph span{font-family:"Outfit";font-size:3.2rem;font-weight:700;
   letter-spacing:.06em;color:var(--accent)}
 .hero-avatar .ph small{color:var(--faint);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.hero-avatar .ph img{width:100%;height:100%;object-fit:cover}
 .hero-stats{display:flex;gap:2.2rem;margin-top:2.4rem;flex-wrap:wrap}
 .hero-stats b{display:block;font-family:"Outfit";font-size:1.5rem;color:var(--fg)}
 .hero-stats span{color:var(--faint);font-size:.85rem}
@@ -887,10 +888,9 @@ def hero_section() -> str:
   </div>
   <div class="hero-avatar">
     <div class="ring"></div>
-    <!-- TODO(operator): replace the placeholder below with the LinkedIn profile
-         photo, e.g. <img src="../assets/derek.jpg" alt="Derek Coleman"
-         style="width:100%;height:100%;object-fit:cover"> inside .ph -->
-    <div class="ph"><span>DC</span><small>photo pending</small></div>
+    <!-- Sourced from the operator's Instagram profile picture (@dereksonthejob),
+         150px CDN copy — swap for a higher-res original when available. -->
+    <div class="ph"><img src="assets/derek.jpg" alt="Derek Coleman"></div>
   </div>
 </div></div>"""
 

@@ -88,6 +88,7 @@ nav.main a.active{color:var(--fg)}
 .hero-avatar .ph span{font-family:"Outfit";font-size:3.2rem;font-weight:700;
   letter-spacing:.06em;color:var(--accent)}
 .hero-avatar .ph small{color:var(--faint);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.hero-avatar .ph img{width:100%;height:100%;object-fit:cover}
 .hero-stats{display:flex;gap:2.2rem;margin-top:2.4rem;flex-wrap:wrap}
 .hero-stats b{display:block;font-family:"Outfit";font-size:1.5rem;color:var(--fg)}
 .hero-stats span{color:var(--faint);font-size:.85rem}
