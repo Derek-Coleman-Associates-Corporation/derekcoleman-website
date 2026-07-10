@@ -7,6 +7,10 @@
     {
       "route": "/contact",
       "rewrite": "/contact/index.html"
+    },
+    {
+      "route": "/pay",
+      "rewrite": "/pay/index.html"
     }
   ],
   "responseOverrides": {

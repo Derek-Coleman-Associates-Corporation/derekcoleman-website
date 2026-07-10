@@ -29,6 +29,31 @@ esc = html.escape
 
 SITEMAP_PATHS: list[str] = []
 
+# ─── payments / fintech links ─────────────────────────────────────────────────
+# ⚠️ PLACEHOLDER HANDLES — every url below with "YOUR" in it must be replaced
+# with the operator's real handle before this page ships to production.
+# handle=None ⇒ the card renders with a "handle pending" badge and no link.
+PAYMENTS = [
+    {"name": "Cash App", "abbr": "$", "color": "#00d632",
+     "url": "https://cash.app/$YOURCASHTAG", "handle": None,
+     "note": "Instant P2P payments via cashtag."},
+    {"name": "Venmo", "abbr": "V", "color": "#008cff",
+     "url": "https://venmo.com/u/YOURVENMO", "handle": None,
+     "note": "P2P payments and splits."},
+    {"name": "PayPal", "abbr": "P", "color": "#003087",
+     "url": "https://paypal.me/YOURPAYPAL", "handle": None,
+     "note": "Cards accepted; buyer/seller protection."},
+    {"name": "Zelle", "abbr": "Z", "color": "#6d1ed4",
+     "url": None, "handle": None,
+     "note": "Bank-to-bank transfer — enrollment email/phone shared on request."},
+    {"name": "Apple Cash", "abbr": "", "color": "#555555",
+     "url": None, "handle": None,
+     "note": "In Messages / Wallet — available on request."},
+    {"name": "Wise", "abbr": "W", "color": "#9fe870",
+     "url": "https://wise.com/pay/me/YOURWISE", "handle": None,
+     "note": "International transfers in 40+ currencies."},
+]
+
 # ─── shared page chrome ───────────────────────────────────────────────────────
 
 CSS = """
@@ -77,6 +102,17 @@ section h2{font-size:1.5rem;letter-spacing:-.01em;margin-bottom:1.2rem}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.3rem;box-shadow:var(--shadow)}
 .card h3{font-size:1.05rem;margin-bottom:.4rem}
 .card p{color:var(--muted);font-size:.95rem}
+.pay-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.pay-card{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);color:var(--fg)}
+a.pay-card:hover{text-decoration:none;border-color:var(--accent)}
+.pay-badge{flex:0 0 44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.3rem;color:#fff}
+.pay-card h3{font-size:1.02rem;margin-bottom:.15rem}
+.pay-card p{color:var(--muted);font-size:.88rem;line-height:1.45}
+.pay-pending{display:inline-block;margin-top:.3rem;font-size:.75rem;font-weight:700;letter-spacing:.03em;
+  color:#a15c00;background:rgba(255,170,0,.15);border-radius:5px;padding:.1rem .45rem}
+@media (prefers-color-scheme: dark){.pay-pending{color:#ffc766}}
 footer.site{border-top:1px solid var(--border);padding:2rem 0;color:var(--muted);font-size:.9rem}
 footer.site .wrap{display:flex;gap:1rem;flex-wrap:wrap;justify-content:space-between}
 form.contact{display:grid;gap:1rem;max-width:40rem}
@@ -207,6 +243,7 @@ def page(*, title: str, description: str, body: str, depth: int, path: str | Non
   <a class="brand" href="{r if depth else './'}">Derek Coleman</a>
   <nav class="main">
     <a href="{r}#work">Work</a>
+    <a href="{r}pay/">Pay</a>
     <a href="{r}contact/">Contact</a>
     <a href="{COMPANY_SITE}" rel="noopener">DC Associates Group</a>
   </nav>
@@ -290,6 +327,33 @@ def contact_page() -> str:
                 body=body, depth=1, path="contact/")
 
 
+def pay_page() -> str:
+    cards = []
+    for p in PAYMENTS:
+        badge = f'<span class="pay-badge" style="background:{p["color"]}">{esc(p["abbr"] or p["name"][0])}</span>'
+        inner = f"""{badge}
+  <span><h3>{esc(p["name"])}</h3>
+  <p>{esc(p["note"])}</p>
+  {'' if p["handle"] else '<span class="pay-pending">HANDLE PENDING — placeholder</span>'}</span>"""
+        if p["url"] and p["handle"]:
+            cards.append(f'<a class="pay-card" href="{esc(p["url"])}" rel="noopener">{inner}</a>')
+        else:
+            cards.append(f'<div class="pay-card">{inner}</div>')
+    body = f"""<section><div class="wrap">
+  <h2>Pay Derek</h2>
+  <p style="color:var(--muted);margin-bottom:1.4rem">
+    Payment and fintech apps I accept. If a method you need isn't listed,
+    <a href="../contact/">get in touch</a>.</p>
+  <div class="pay-grid">
+    {"".join(cards)}
+  </div>
+</div></section>
+"""
+    return page(title="Pay — Derek Coleman",
+                description="Payment methods accepted by Derek Coleman: Cash App, Venmo, PayPal, Zelle, and more.",
+                body=body, depth=1, path="pay/")
+
+
 def not_found() -> str:
     body = """<section><div class="wrap">
   <h2>Page not found</h2>
@@ -305,6 +369,7 @@ SWA_CONFIG = {
     "platform": {"apiRuntime": "node:20"},
     "routes": [
         {"route": "/contact", "rewrite": "/contact/index.html"},
+        {"route": "/pay", "rewrite": "/pay/index.html"},
     ],
     "responseOverrides": {
         "404": {"rewrite": "/404.html", "statusCode": 404},
@@ -335,6 +400,7 @@ def main() -> None:
 
     write("index.html", home())
     write("contact/index.html", contact_page())
+    write("pay/index.html", pay_page())
     write("404.html", not_found())
     write("assets/site.css", CSS)
     write("assets/contact.js", CONTACT_JS)

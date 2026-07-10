@@ -44,6 +44,17 @@ section h2{font-size:1.5rem;letter-spacing:-.01em;margin-bottom:1.2rem}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.3rem;box-shadow:var(--shadow)}
 .card h3{font-size:1.05rem;margin-bottom:.4rem}
 .card p{color:var(--muted);font-size:.95rem}
+.pay-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.pay-card{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow);color:var(--fg)}
+a.pay-card:hover{text-decoration:none;border-color:var(--accent)}
+.pay-badge{flex:0 0 44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.3rem;color:#fff}
+.pay-card h3{font-size:1.02rem;margin-bottom:.15rem}
+.pay-card p{color:var(--muted);font-size:.88rem;line-height:1.45}
+.pay-pending{display:inline-block;margin-top:.3rem;font-size:.75rem;font-weight:700;letter-spacing:.03em;
+  color:#a15c00;background:rgba(255,170,0,.15);border-radius:5px;padding:.1rem .45rem}
+@media (prefers-color-scheme: dark){.pay-pending{color:#ffc766}}
 footer.site{border-top:1px solid var(--border);padding:2rem 0;color:var(--muted);font-size:.9rem}
 footer.site .wrap{display:flex;gap:1rem;flex-wrap:wrap;justify-content:space-between}
 form.contact{display:grid;gap:1rem;max-width:40rem}
