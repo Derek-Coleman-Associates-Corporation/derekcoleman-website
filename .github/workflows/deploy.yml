@@ -22,5 +22,8 @@ jobs:
           app_location: public
           api_location: api
           skip_app_build: true
-          # main → production; any other branch → the "staging" named environment
-          deployment_environment: ${{ github.ref_name == 'main' && '' || 'staging' }}
+          # main → production; any other branch → the "staging" named environment.
+          # NB: must be `!= 'main' && 'staging' || ''` — the && branch has to be
+          # the TRUTHY value. `== 'main' && ''` is falsy, so || would always
+          # yield 'staging' and main pushes would deploy to staging (real bug).
+          deployment_environment: ${{ github.ref_name != 'main' && 'staging' || '' }}
