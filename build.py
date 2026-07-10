@@ -888,9 +888,8 @@ def hero_section() -> str:
   </div>
   <div class="hero-avatar">
     <div class="ring"></div>
-    <!-- Sourced from the operator's Instagram profile picture (@dereksonthejob),
-         150px CDN copy — swap for a higher-res original when available. -->
-    <div class="ph"><img src="assets/derek.jpg" alt="Derek Coleman"></div>
+    <!-- Operator-supplied headshot (829x829). -->
+    <div class="ph"><img src="assets/derek.png" alt="Derek Coleman"></div>
   </div>
 </div></div>"""
 
