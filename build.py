@@ -41,27 +41,27 @@ esc = html.escape
 SITEMAP_PATHS: list[str] = []
 
 # ─── payments / fintech links (/pay) ─────────────────────────────────────────
-# ⚠️ PLACEHOLDER HANDLES — every url below with "YOUR" in it must be replaced
-# with the operator's real handle before this page ships to production.
-# handle=None ⇒ the card renders with a "handle pending" badge and no link.
+# Operator directive 2026-07-10: list ONLY official fintech-site URLs — never
+# personal handles/cashtags on the public page. Handles go out via the
+# contact form, person to person.
 PAYMENTS = [
     {"name": "Cash App", "abbr": "$", "color": "#00d632",
-     "url": "https://cash.app/$YOURCASHTAG", "handle": None,
+     "url": "https://cash.app",
      "note": "Instant P2P payments via cashtag."},
     {"name": "Venmo", "abbr": "V", "color": "#008cff",
-     "url": "https://venmo.com/u/YOURVENMO", "handle": None,
+     "url": "https://venmo.com",
      "note": "P2P payments and splits."},
     {"name": "PayPal", "abbr": "P", "color": "#3b6fc9",
-     "url": "https://paypal.me/YOURPAYPAL", "handle": None,
+     "url": "https://www.paypal.com",
      "note": "Cards accepted; buyer/seller protection."},
     {"name": "Zelle", "abbr": "Z", "color": "#6d1ed4",
-     "url": None, "handle": None,
-     "note": "Bank-to-bank transfer — enrollment email/phone shared on request."},
+     "url": "https://www.zellepay.com",
+     "note": "Bank-to-bank transfer, no app fees."},
     {"name": "Apple Cash", "abbr": "", "color": "#555555",
-     "url": None, "handle": None,
-     "note": "In Messages / Wallet — available on request."},
+     "url": "https://www.apple.com/apple-cash/",
+     "note": "In Messages / Wallet on Apple devices."},
     {"name": "Wise", "abbr": "W", "color": "#9fe870",
-     "url": "https://wise.com/pay/me/YOURWISE", "handle": None,
+     "url": "https://wise.com",
      "note": "International transfers in 40+ currencies."},
 ]
 
@@ -1115,19 +1115,16 @@ def pay_page() -> str:
     cards = []
     for p in PAYMENTS:
         badge = f'<span class="pay-badge" style="background:{p["color"]}">{esc(p["abbr"] or p["name"][0])}</span>'
-        inner = f"""{badge}
+        cards.append(f"""<a class="pay-card" href="{esc(p["url"])}" rel="noopener">{badge}
   <span><h3>{esc(p["name"])}</h3>
-  <p>{esc(p["note"])}</p>
-  {'' if p["handle"] else '<span class="pay-pending">HANDLE PENDING — placeholder</span>'}</span>"""
-        if p["url"] and p["handle"]:
-            cards.append(f'<a class="pay-card" href="{esc(p["url"])}" rel="noopener">{inner}</a>')
-        else:
-            cards.append(f'<div class="pay-card">{inner}</div>')
+  <p>{esc(p["note"])}</p></span>
+</a>""")
     body = f"""<section><div class="wrap">
   <span class="kicker">Payments</span>
   <h2>Pay Derek</h2>
-  <p class="section-sub">Payment and fintech apps I accept. If a method you need isn't
-    listed, <a href="../#contact">get in touch</a>.</p>
+  <p class="section-sub">The payment and fintech apps I accept — links go to each
+    provider's official site. For my handle on any of them,
+    <a href="../#contact">ask via the contact form</a> first.</p>
   <div class="pay-grid">{"".join(cards)}</div>
 </div></section>"""
     return page(title="Pay — Derek Coleman",
