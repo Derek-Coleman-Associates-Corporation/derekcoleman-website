@@ -8,7 +8,11 @@ writes the deployable site to public/, deployed by GitHub Actions →
 Azure Static Web Apps.
 
 Sections: hero · expertise tabs · code vault · discussions · contact.
-Subpages: /pay (fintech payment cards), 404.
+Subpages: /blog (personal blog, markdown posts), /pay (fintech payment cards), 404.
+
+Blog workflow: drop a markdown file in content/posts/ (front-matter: title,
+date, category, excerpt, optional image), put images in assets/blog/, run
+`git push` — CI rebuilds and deploys. See README.
 
 Usage: python3 build.py
 """
@@ -23,6 +27,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 PUB = ROOT / "public"
+POSTS_DIR = ROOT / "content" / "posts"
+ASSETS_DIR = ROOT / "assets"
 
 SITE = "https://derekcoleman.com"
 CONTACT_EMAIL = "derek@derekcoleman.com"
@@ -223,6 +229,27 @@ nav.main a.active{color:var(--fg)}
 .disc-card p{color:var(--muted);font-size:.9rem;flex:1}
 .disc-meta{display:flex;gap:.8rem;color:var(--faint);font-size:.78rem}
 .disc-soon{color:var(--orange);font-size:.75rem;font-weight:600}
+a.disc-card{color:var(--fg)}
+a.disc-card:hover h3{color:var(--accent2)}
+
+/* ── blog post page ── */
+.post-wrap{max-width:760px}
+.post-title{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.2;letter-spacing:-.02em;margin:.6rem 0 .8rem}
+.post-hero{border-radius:var(--radius);border:1px solid var(--border);margin-bottom:2rem;width:100%}
+.post-body>*+*{margin-top:1.1rem}
+.post-body h2{font-size:1.45rem;margin-top:2.4rem}
+.post-body h3{font-size:1.15rem;margin-top:1.8rem}
+.post-body p,.post-body li{color:#c3cad4}
+.post-body ul,.post-body ol{padding-left:1.4rem}
+.post-body img{border-radius:10px;border:1px solid var(--border)}
+.post-body blockquote{border-left:3px solid var(--navy2);padding:.2rem 0 .2rem 1.1rem;color:var(--muted)}
+.post-body hr{border:none;border-top:1px solid var(--border)}
+.post-body pre{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:.83rem;line-height:1.6;
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:#c8ccd8}
+.post-body code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.88em;
+  background:var(--card2);border:1px solid var(--border);border-radius:5px;padding:.08em .35em}
+.post-body pre code{background:none;border:none;padding:0}
 
 /* ── contact ── */
 .contact-grid{display:grid;gap:2.5rem;grid-template-columns:.8fr 1.2fr}
@@ -460,6 +487,132 @@ def hl(code: str, lang: str) -> str:
     return "".join(out)
 
 
+# ─── minimal markdown → HTML (stdlib only) ───────────────────────────────────
+
+_INLINE_CODE = re.compile(r"`([^`]+)`")
+_BOLD = re.compile(r"\*\*(.+?)\*\*")
+_ITALIC = re.compile(r"(?<!\*)\*([^*]+)\*(?!\*)")
+_IMG = re.compile(r"!\[([^\]]*)\]\(([^)\s]+)\)")
+_LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
+
+
+def _inline(text: str) -> str:
+    text = esc(text)
+    # protect code spans from further formatting
+    spans: list[str] = []
+    def stash(m):
+        spans.append(f"<code>{m.group(1)}</code>")
+        return f"\x00{len(spans) - 1}\x00"
+    text = _INLINE_CODE.sub(stash, text)
+    text = _IMG.sub(r'<img src="\2" alt="\1" loading="lazy">', text)
+    text = _LINK.sub(r'<a href="\2" rel="noopener">\1</a>', text)
+    text = _BOLD.sub(r"<strong>\1</strong>", text)
+    text = _ITALIC.sub(r"<em>\1</em>", text)
+    return re.sub(r"\x00(\d+)\x00", lambda m: spans[int(m.group(1))], text)
+
+
+def md_to_html(md: str) -> str:
+    """Small markdown subset: #/##/### headings, paragraphs, fenced code
+    (with vault syntax highlighting), -/1. lists, > quotes, images, links,
+    bold/italic/inline code, --- rules."""
+    out: list[str] = []
+    para: list[str] = []
+    lst: str | None = None
+
+    def flush_para():
+        if para:
+            out.append(f"<p>{_inline(' '.join(para))}</p>")
+            para.clear()
+
+    def close_list():
+        nonlocal lst
+        if lst:
+            out.append(f"</{lst}>")
+            lst = None
+
+    lines = md.split("\n")
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("```"):
+            flush_para(); close_list()
+            lang = line[3:].strip()
+            block: list[str] = []
+            i += 1
+            while i < len(lines) and not lines[i].startswith("```"):
+                block.append(lines[i]); i += 1
+            code = "\n".join(block)
+            body = hl(code, lang) if lang in _LANG_PATTERNS else esc(code)
+            out.append(f"<pre><code>{body}</code></pre>")
+        elif m := re.match(r"(#{1,3}) +(.*)", line):
+            flush_para(); close_list()
+            n = len(m.group(1)) + 1  # post h1 is the page title → start at h2
+            out.append(f"<h{n}>{_inline(m.group(2))}</h{n}>")
+        elif re.match(r"---+\s*$", line):
+            flush_para(); close_list()
+            out.append("<hr>")
+        elif m := re.match(r"[-*] +(.*)", line):
+            flush_para()
+            if lst != "ul":
+                close_list(); out.append("<ul>"); lst = "ul"
+            out.append(f"<li>{_inline(m.group(1))}</li>")
+        elif m := re.match(r"\d+\. +(.*)", line):
+            flush_para()
+            if lst != "ol":
+                close_list(); out.append("<ol>"); lst = "ol"
+            out.append(f"<li>{_inline(m.group(1))}</li>")
+        elif m := re.match(r"> ?(.*)", line):
+            flush_para(); close_list()
+            out.append(f"<blockquote><p>{_inline(m.group(1))}</p></blockquote>")
+        elif not line.strip():
+            flush_para(); close_list()
+        else:
+            para.append(line.strip())
+        i += 1
+    flush_para(); close_list()
+    return "\n".join(out)
+
+
+BLOG_CATEGORIES = ("tech", "finance", "fitness")
+
+
+def load_posts() -> list[dict]:
+    """Parse content/posts/*.md → sorted post dicts (newest first).
+
+    Front-matter block between --- lines: title, date (YYYY-MM-DD),
+    category (tech|finance|fitness), excerpt, image (optional, site-relative
+    e.g. assets/blog/foo.svg)."""
+    posts = []
+    if not POSTS_DIR.is_dir():
+        return posts
+    for f in sorted(POSTS_DIR.glob("*.md")):
+        raw = f.read_text(encoding="utf-8")
+        m = re.match(r"---\n(.*?)\n---\n(.*)", raw, re.DOTALL)
+        if not m:
+            raise SystemExit(f"{f}: missing front-matter block")
+        meta: dict = {}
+        for line in m.group(1).splitlines():
+            if ":" in line:
+                k, v = line.split(":", 1)
+                meta[k.strip()] = v.strip()
+        for req in ("title", "date", "category", "excerpt"):
+            if not meta.get(req):
+                raise SystemExit(f"{f}: front-matter needs '{req}'")
+        if meta["category"] not in BLOG_CATEGORIES:
+            raise SystemExit(f"{f}: category must be one of {BLOG_CATEGORIES}")
+        d = datetime.date.fromisoformat(meta["date"])
+        posts.append({
+            **meta,
+            "slug": f.stem,
+            "date_obj": d,
+            "date_h": d.strftime("%B %-d, %Y"),
+            "read": f"{max(1, round(len(m.group(2).split()) / 220))} min",
+            "html": md_to_html(m.group(2)),
+        })
+    posts.sort(key=lambda p: p["date_obj"], reverse=True)
+    return posts
+
+
 # ─── code vault samples ───────────────────────────────────────────────────────
 
 CODE_SAMPLES = [
@@ -648,6 +801,7 @@ def header(depth: int) -> str:
     <a href="{r}#expertise">Expertise</a>
     <a href="{r}#vault">Code Vault</a>
     <a href="{r}#discussions">Discussions</a>
+    <a href="{r}blog/">Blog</a>
     <a href="{r}#contact">Contact</a>
   </nav>
 </div></header>"""
@@ -834,27 +988,82 @@ def vault_section() -> str:
 </div></section>"""
 
 
-def discussions_section() -> str:
+def _pills(active_all: bool = True) -> str:
     cats = [("all", "All"), ("tech", "Tech"), ("finance", "Finance"), ("fitness", "Fitness")]
-    pills = "".join(
-        f'<button class="pill" data-cat="{c}" aria-pressed="{"true" if c == "all" else "false"}">{l}</button>'
+    return "".join(
+        f'<button class="pill" data-cat="{c}" aria-pressed="{"true" if c == "all" and active_all else "false"}">{l}</button>'
         for c, l in cats)
-    cards = []
-    for d in DISCUSSIONS:
-        cards.append(f"""<article class="disc-card" data-cat="{d["cat"]}">
+
+
+def _post_card(p: dict, depth: int) -> str:
+    href = ("../" * depth) + f"blog/{p['slug']}/"
+    return f"""<a class="disc-card" data-cat="{p["category"]}" href="{href}">
+  <span class="disc-cat {p["category"]}">{p["category"].capitalize()}</span>
+  <h3>{esc(p["title"])}</h3>
+  <p>{esc(p["excerpt"])}</p>
+  <div class="disc-meta"><span>{esc(p["date_h"])}</span><span>{esc(p["read"])} read</span></div>
+</a>"""
+
+
+def _draft_card(d: dict) -> str:
+    return f"""<article class="disc-card" data-cat="{d["cat"]}">
   <span class="disc-cat {d["cat"]}">{d["cat"].capitalize()}</span>
   <h3>{esc(d["title"])}</h3>
   <p>{esc(d["excerpt"])}</p>
   <div class="disc-meta"><span>{esc(d["date"])}</span><span>{esc(d["read"])} read</span>
     <span class="disc-soon">Draft — full post coming soon</span></div>
-</article>""")
+</article>"""
+
+
+def discussions_section(posts: list[dict]) -> str:
+    # real blog posts lead; editorial-calendar drafts fill the grid to 6
+    cards = [_post_card(p, 0) for p in posts[:6]]
+    cards += [_draft_card(d) for d in DISCUSSIONS[: max(0, 6 - len(cards))]]
     return f"""<section id="discussions" style="background:var(--bg2)"><div class="wrap reveal">
   <span class="kicker">Discussions</span>
   <h2>Notes from the field</h2>
-  <p class="section-sub">Technology, finance, and fitness — the three feeds I actually write.</p>
-  <div class="pills" data-filter-group="#discussions .disc-card">{pills}</div>
+  <p class="section-sub">Technology, finance, and fitness — the three feeds I actually write.
+    <a href="blog/">View all posts →</a></p>
+  <div class="pills" data-filter-group="#discussions .disc-card">{_pills()}</div>
   <div class="disc-grid">{"".join(cards)}</div>
 </div></section>"""
+
+
+def blog_index(posts: list[dict]) -> str:
+    cards = [_post_card(p, 1) for p in posts]
+    drafts = "".join(_draft_card(d) for d in DISCUSSIONS)
+    posts_html = f'<div class="disc-grid">{"".join(cards)}</div>' if cards else \
+        '<p class="section-sub">First post is on its way.</p>'
+    body = f"""<section><div class="wrap">
+  <span class="kicker">Blog</span>
+  <h2>Personal blog</h2>
+  <p class="section-sub">Long-form writing on technology, finance, and fitness.</p>
+  <div class="pills" data-filter-group=".disc-grid .disc-card">{_pills()}</div>
+  {posts_html}
+  <h2 style="margin-top:3.5rem">On the editorial calendar</h2>
+  <p class="section-sub">Coming soon.</p>
+  <div class="disc-grid">{drafts}</div>
+</div></section>"""
+    return page(title="Blog — Derek Coleman",
+                description="Derek Coleman's personal blog: technology, finance, and fitness.",
+                body=body, depth=1, path="blog/")
+
+
+def blog_post_page(p: dict) -> str:
+    hero_img = (f'<img class="post-hero" src="../../{esc(p["image"])}" alt="">'
+                if p.get("image") else "")
+    body = f"""<section><div class="wrap post-wrap">
+  <p><a href="../">← All posts</a></p>
+  <span class="disc-cat {p["category"]}">{p["category"].capitalize()}</span>
+  <h1 class="post-title">{esc(p["title"])}</h1>
+  <div class="disc-meta" style="margin-bottom:2rem"><span>{esc(p["date_h"])}</span>
+    <span>{esc(p["read"])} read</span><span>Derek Coleman</span></div>
+  {hero_img}
+  <div class="post-body">{p["html"]}</div>
+</div></section>"""
+    return page(title=f"{p['title']} — Derek Coleman",
+                description=p["excerpt"], body=body, depth=2,
+                path=f"blog/{p['slug']}/")
 
 
 CONTACT_TOPICS = ["General", "Consulting", "Speaking", "Other"]
@@ -891,9 +1100,9 @@ def contact_section() -> str:
 </div></section>"""
 
 
-def home() -> str:
+def home(posts: list[dict]) -> str:
     body = hero_section() + expertise_section() + vault_section() \
-        + discussions_section() + contact_section()
+        + discussions_section(posts) + contact_section()
     return page(
         title="Derek Coleman — Distinguished Architect · CEO · AI Innovator",
         description="Derek Coleman: securing local generative AI for production. Private "
@@ -969,7 +1178,13 @@ def main() -> None:
         shutil.rmtree(PUB)
     PUB.mkdir(parents=True)
 
-    write("index.html", home())
+    posts = load_posts()
+    if ASSETS_DIR.is_dir():
+        shutil.copytree(ASSETS_DIR, PUB / "assets", dirs_exist_ok=True)
+    write("index.html", home(posts))
+    write("blog/index.html", blog_index(posts))
+    for p in posts:
+        write(f"blog/{p['slug']}/index.html", blog_post_page(p))
     write("pay/index.html", pay_page())
     write("404.html", not_found())
     write("assets/site.css", CSS)

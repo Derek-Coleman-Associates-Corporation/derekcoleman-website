@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121214">
+<title>Zero-Downtime DNS Migration: Moving a Live Domain from M365 DNS to Azure DNS — Derek Coleman</title>
+<meta name="description" content="The parallel-zone method — recreate every record TTL-exact, prove parity with dig diffs, then make the nameserver flip the only moving part. Mail keeps flowing the whole time.">
+<link rel="canonical" href="https://derekcoleman.com/blog/zero-downtime-dns-migration/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Derek Coleman">
+<meta property="og:title" content="Zero-Downtime DNS Migration: Moving a Live Domain from M365 DNS to Azure DNS — Derek Coleman">
+<meta property="og:description" content="The parallel-zone method — recreate every record TTL-exact, prove parity with dig diffs, then make the nameserver flip the only moving part. Mail keeps flowing the whole time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body id="top">
+<header class="site"><div class="wrap">
+  <a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<g transform="rotate(45 16 16)">
+<rect x="5" y="5" width="10" height="10" rx="2" fill="#274b8f"/>
+<rect x="17" y="5" width="10" height="10" rx="2" fill="#6ea8ff"/>
+<rect x="5" y="17" width="10" height="10" rx="2" fill="#6ea8ff"/>
+<rect x="17" y="17" width="10" height="10" rx="2" fill="#1d3a6e"/>
+</g></svg>DEREK&nbsp;COLEMAN</a>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+  <nav class="main">
+    <a href="../../#top">Home</a>
+    <a href="../../#expertise">Expertise</a>
+    <a href="../../#vault">Code Vault</a>
+    <a href="../../#discussions">Discussions</a>
+    <a href="../../blog/">Blog</a>
+    <a href="../../#contact">Contact</a>
+  </nav>
+</div></header>
+<main>
+<section><div class="wrap post-wrap">
+  <p><a href="../">← All posts</a></p>
+  <span class="disc-cat tech">Tech</span>
+  <h1 class="post-title">Zero-Downtime DNS Migration: Moving a Live Domain from M365 DNS to Azure DNS</h1>
+  <div class="disc-meta" style="margin-bottom:2rem"><span>July 10, 2026</span>
+    <span>2 min read</span><span>Derek Coleman</span></div>
+  <img class="post-hero" src="../../assets/blog/parallel-zone-cutover.svg" alt="">
+  <div class="post-body"><p>This domain — the one you&#x27;re reading right now — just moved from Microsoft 365-managed DNS to Azure DNS with a live mailbox on it the whole time. Here&#x27;s the method, which works for any DNS host migration where something business-critical (usually email) can&#x27;t blink.</p>
+<h3>The core idea: build everything, flip one thing</h3>
+<p>A DNS migration goes wrong when the cutover has more than one moving part. The fix is to make the nameserver delegation the <em>only</em> change:</p>
+<ol>
+<li><strong>Inventory the live zone authoritatively.</strong> Not from your notes — from</li>
+<p>the authoritative servers, with TTLs. Recursive resolvers lie by flattening CNAME chains; query the zone&#x27;s own nameservers.</p>
+<li><strong>Build a complete parallel zone</strong> at the new host. Every record,</li>
+<p>byte-identical values, matching TTLs. The new zone serves no traffic yet.</p>
+<li><strong>Prove parity before flipping.</strong> Diff every record type between the old</li>
+<p>and new nameservers. Intentional changes (a new website host) should be the <em>only</em> diffs, and you should be able to name each one.</p>
+<li><strong>Flip NS at the registrar.</strong> During propagation, resolvers see either</li>
+<p>zone — and both give identical answers for everything that matters.</p>
+</ol>
+<pre><code><span class="tok-c"># the parity gate, conceptually</span>
+<span class="tok-k">for</span> name, rtype <span class="tok-k">in</span> inventory:
+    prod  = <span class="tok-f">dig</span>(old_ns, name, rtype)
+    azure = <span class="tok-f">dig</span>(new_ns, name, rtype)
+    assert prod == azure <span class="tok-k">or</span> (name, rtype) <span class="tok-k">in</span> INTENTIONAL_DIFFS</code></pre>
+<h3>Why mail survives</h3>
+<p>The mailbox doesn&#x27;t live in DNS — it lives in Exchange Online. DNS only tells other mail servers where to deliver (MX) and how to trust you (SPF, DKIM, DMARC). If those records are identical in both zones, then mid-propagation a sending server can resolve via <em>either</em> zone and get the <em>same</em> answer. There is no moment where mail has nowhere to go.</p>
+<p>Three details people miss:</p>
+<ul>
+<li><strong>DKIM selectors are CNAMEs into your tenant</strong> — copy them exactly,</li>
+<p>including the <code>onmicrosoft.com</code> targets.</p>
+<li><strong>The M365 device-management records</strong> (<code>enterpriseregistration</code>,</li>
+<p><code>enterpriseenrollment</code>, <code>autodiscover</code>) need to come along or Outlook profile setup and Intune enrollment quietly break later.</p>
+<li><strong>Don&#x27;t remove the domain from M365 admin.</strong> The admin center will warn</li>
+<p>that DNS is no longer Microsoft-managed. That&#x27;s fine — the records still exist, just hosted elsewhere.</p>
+</ul>
+<h3>The one trap: certificate validation timing</h3>
+<p>The new website host (Azure Static Web Apps here) validates custom domains by querying <em>public</em> DNS — which still resolves through the old nameservers until you flip. So domain validation sits in &quot;Validating&quot; until cutover completes. Expected, not broken. Place the validation TXT records in the new zone ahead of time and validation self-completes minutes after the flip.</p>
+<hr>
+<p>Total downtime for this site&#x27;s migration: zero. Mail interruption: zero. The flip itself: one registrar form.</p></div>
+</div></section>
+</main>
+<footer class="site"><div class="wrap">
+  <span>© 2026 Derek Coleman · CEO, Derek Coleman &amp; Associates Group</span>
+  <span>
+    <a href="mailto:derek@derekcoleman.com">derek@derekcoleman.com</a> ·
+    <a href="https://www.linkedin.com/company/derek-coleman-associates-group-inc" rel="noopener">LinkedIn</a> ·
+    <a href="https://github.com/Derek-Coleman-Associates-Corporation" rel="noopener">GitHub</a> ·
+    <a href="/pay/">Pay</a> ·
+    <a href="https://www.dcassociatesgroup.com" rel="noopener">DC Associates Group</a>
+  </span>
+</div></footer>
+<script src="../../assets/app.js" defer></script>
+</body>
+</html>

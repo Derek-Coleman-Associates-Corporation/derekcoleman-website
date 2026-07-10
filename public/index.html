@@ -32,6 +32,7 @@
     <a href="#expertise">Expertise</a>
     <a href="#vault">Code Vault</a>
     <a href="#discussions">Discussions</a>
+    <a href="blog/">Blog</a>
     <a href="#contact">Contact</a>
   </nav>
 </div></header>
@@ -223,9 +224,15 @@ app = <span class="tok-f">FastAPI</span>(title=<span class="tok-s">&quot;model-r
 </div></section><section id="discussions" style="background:var(--bg2)"><div class="wrap reveal">
   <span class="kicker">Discussions</span>
   <h2>Notes from the field</h2>
-  <p class="section-sub">Technology, finance, and fitness — the three feeds I actually write.</p>
+  <p class="section-sub">Technology, finance, and fitness — the three feeds I actually write.
+    <a href="blog/">View all posts →</a></p>
   <div class="pills" data-filter-group="#discussions .disc-card"><button class="pill" data-cat="all" aria-pressed="true">All</button><button class="pill" data-cat="tech" aria-pressed="false">Tech</button><button class="pill" data-cat="finance" aria-pressed="false">Finance</button><button class="pill" data-cat="fitness" aria-pressed="false">Fitness</button></div>
-  <div class="disc-grid"><article class="disc-card" data-cat="tech">
+  <div class="disc-grid"><a class="disc-card" data-cat="tech" href="blog/zero-downtime-dns-migration/">
+  <span class="disc-cat tech">Tech</span>
+  <h3>Zero-Downtime DNS Migration: Moving a Live Domain from M365 DNS to Azure DNS</h3>
+  <p>The parallel-zone method — recreate every record TTL-exact, prove parity with dig diffs, then make the nameserver flip the only moving part. Mail keeps flowing the whole time.</p>
+  <div class="disc-meta"><span>July 10, 2026</span><span>2 min read</span></div>
+</a><article class="disc-card" data-cat="tech">
   <span class="disc-cat tech">Tech</span>
   <h3>Running Llama-3 Behind Your Own Firewall: a vLLM Production Checklist</h3>
   <p>GPU memory headroom, continuous batching, API-key rotation, and the monitoring you need before an internal LLM endpoint counts as production.</p>
@@ -254,24 +261,6 @@ app = <span class="tok-f">FastAPI</span>(title=<span class="tok-s">&quot;model-r
   <h3>Burning Down Committed Cloud Spend Without Wasting It</h3>
   <p>Committed-spend agreements expire whether you use them or not. A framework for routing real workloads at the burn-down.</p>
   <div class="disc-meta"><span>June 2026</span><span>7 min read</span>
-    <span class="disc-soon">Draft — full post coming soon</span></div>
-</article><article class="disc-card" data-cat="finance">
-  <span class="disc-cat finance">Finance</span>
-  <h3>Strategic Planning for a Family-Owned Technology Business</h3>
-  <p>Annual planning that survives contact with reality: capital allocation, partner programs, and when to say no to growth.</p>
-  <div class="disc-meta"><span>May 2026</span><span>10 min read</span>
-    <span class="disc-soon">Draft — full post coming soon</span></div>
-</article><article class="disc-card" data-cat="fitness">
-  <span class="disc-cat fitness">Fitness</span>
-  <h3>Training Consistency When You Run a Company</h3>
-  <p>The minimum-effective-dose program that survives travel weeks, launch weeks, and everything in between.</p>
-  <div class="disc-meta"><span>July 2026</span><span>5 min read</span>
-    <span class="disc-soon">Draft — full post coming soon</span></div>
-</article><article class="disc-card" data-cat="fitness">
-  <span class="disc-cat fitness">Fitness</span>
-  <h3>A Diet Plan You Can Actually Sustain at a Desk</h3>
-  <p>Protein targets, meal timing around deep-work blocks, and what to keep out of the office entirely.</p>
-  <div class="disc-meta"><span>June 2026</span><span>6 min read</span>
     <span class="disc-soon">Draft — full post coming soon</span></div>
 </article></div>
 </div></section><section id="contact"><div class="wrap reveal">

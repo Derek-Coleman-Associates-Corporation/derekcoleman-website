@@ -22,6 +22,28 @@ M365→Azure DNS migration (see `MIGRATION-PLAYBOOK.md` once written).
 - Storage account (table + queue for the contact form)
 - Azure DNS zone `derekcoleman.com`
 
+## Posting to the blog
+
+1. Create `content/posts/<slug>.md` with front-matter:
+
+   ```markdown
+   ---
+   title: My Post Title
+   date: 2026-07-15
+   category: tech        # tech | finance | fitness
+   excerpt: One-sentence summary shown on the card.
+   image: assets/blog/my-image.png   # optional hero image
+   ---
+
+   Body in markdown: headings, lists, links, **bold**, `code`,
+   fenced code blocks (```python … ```), and images:
+   ![alt text](../../assets/blog/my-image.png)
+   ```
+
+2. Drop any images into `assets/blog/`.
+3. Commit and push — CI rebuilds and deploys. The post appears at
+   `/blog/<slug>/`, on the blog index, and on the home Discussions feed.
+
 ## Build locally
 
 ```sh

@@ -158,6 +158,27 @@ nav.main a.active{color:var(--fg)}
 .disc-card p{color:var(--muted);font-size:.9rem;flex:1}
 .disc-meta{display:flex;gap:.8rem;color:var(--faint);font-size:.78rem}
 .disc-soon{color:var(--orange);font-size:.75rem;font-weight:600}
+a.disc-card{color:var(--fg)}
+a.disc-card:hover h3{color:var(--accent2)}
+
+/* ── blog post page ── */
+.post-wrap{max-width:760px}
+.post-title{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.2;letter-spacing:-.02em;margin:.6rem 0 .8rem}
+.post-hero{border-radius:var(--radius);border:1px solid var(--border);margin-bottom:2rem;width:100%}
+.post-body>*+*{margin-top:1.1rem}
+.post-body h2{font-size:1.45rem;margin-top:2.4rem}
+.post-body h3{font-size:1.15rem;margin-top:1.8rem}
+.post-body p,.post-body li{color:#c3cad4}
+.post-body ul,.post-body ol{padding-left:1.4rem}
+.post-body img{border-radius:10px;border:1px solid var(--border)}
+.post-body blockquote{border-left:3px solid var(--navy2);padding:.2rem 0 .2rem 1.1rem;color:var(--muted)}
+.post-body hr{border:none;border-top:1px solid var(--border)}
+.post-body pre{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:.83rem;line-height:1.6;
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color:#c8ccd8}
+.post-body code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.88em;
+  background:var(--card2);border:1px solid var(--border);border-radius:5px;padding:.08em .35em}
+.post-body pre code{background:none;border:none;padding:0}
 
 /* ── contact ── */
 .contact-grid{display:grid;gap:2.5rem;grid-template-columns:.8fr 1.2fr}

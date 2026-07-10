@@ -1,0 +1,28 @@
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Segoe UI,sans-serif">
+  <rect width="760" height="360" fill="#17171b"/>
+  <text x="380" y="34" fill="#e8eaf0" font-size="17" font-weight="700" text-anchor="middle">Parallel-zone DNS cutover — build everything before you flip</text>
+
+  <!-- old zone -->
+  <rect x="40" y="70" width="300" height="180" rx="12" fill="#1a1a20" stroke="#2a2d36"/>
+  <text x="190" y="98" fill="#9aa3b2" font-size="13" font-weight="700" text-anchor="middle">M365-managed DNS (live)</text>
+  <text x="190" y="120" fill="#6b7280" font-size="11" text-anchor="middle">ns1–4.bdm.microsoftonline.com</text>
+  <text x="60" y="150" fill="#c8ccd8" font-size="12">MX · SPF · DKIM ×2 · DMARC</text>
+  <text x="60" y="172" fill="#c8ccd8" font-size="12">autodiscover · enterprise* · sip</text>
+  <text x="60" y="194" fill="#c8ccd8" font-size="12">apex + www → old site host</text>
+  <text x="60" y="226" fill="#7dd3a0" font-size="11">✓ untouched during the whole build</text>
+
+  <!-- new zone -->
+  <rect x="420" y="70" width="300" height="180" rx="12" fill="#1a1a20" stroke="#274b8f"/>
+  <text x="570" y="98" fill="#6ea8ff" font-size="13" font-weight="700" text-anchor="middle">Azure DNS zone (parallel)</text>
+  <text x="570" y="120" fill="#6b7280" font-size="11" text-anchor="middle">ns1-01.azure-dns.com …</text>
+  <text x="440" y="150" fill="#c8ccd8" font-size="12">every record recreated, TTL-exact</text>
+  <text x="440" y="172" fill="#c8ccd8" font-size="12">apex + www → Static Web App</text>
+  <text x="440" y="194" fill="#c8ccd8" font-size="12">_dnsauth TXT (cert validation)</text>
+  <text x="440" y="226" fill="#7dd3a0" font-size="11">✓ dig-diffed against production: 15/15 match</text>
+
+  <!-- arrow -->
+  <path d="M 190 270 L 190 300 L 570 300 L 570 270" stroke="#e8b26d" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+    <path d="M0,0 L10,4 L0,8 z" fill="#e8b26d"/></marker></defs>
+  <text x="380" y="330" fill="#e8b26d" font-size="13" font-weight="600" text-anchor="middle">the only cutover action: swap NS at the registrar — mail answers never change</text>
+</svg>
