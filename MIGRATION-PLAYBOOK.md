@@ -43,9 +43,11 @@ cutover. Cast: *operator* = Derek (registrar/credential steps only),
    AZURE_STATIC_WEB_APPS_API_TOKEN` → push → verify Actions deploy green.
 4. Smoke test on the `*.azurestaticapps.net` host: pages 200, POST
    `/api/contact` 200, row lands in the table.
-5. Optional staging: `deployment_environment: ${{ github.ref_name == 'main'
-   && '' || 'staging' }}` in deploy.yml; staging branch → named environment
-   (Free tier includes 3).
+5. Optional staging: `deployment_environment: ${{ github.ref_name != 'main'
+   && 'staging' || '' }}` in deploy.yml; staging branch → named environment
+   (Free tier includes 3). **Never the inverted form** (`== 'main' && '' ||
+   'staging'`) — the `&&` branch is falsy so `||` always yields `'staging'`
+   and main pushes silently deploy to staging (real bug we hit).
 
 ## Phase 3 — Parallel Azure DNS zone
 
